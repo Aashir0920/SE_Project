@@ -1,31 +1,43 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import authApi from "../api/authApi";
-import "../index.css";
-
 const Login = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      await authApi.login({ email, password });
-      navigate("/profile");
-    } catch (err) {
-      alert("Invalid credentials!");
-    }
+  const handleLogin = () => {
+    // BACKEND: Authenticate user
+    // POST /api/auth/login
+    // Request: { email, password }
+    // Response: { token, user: { id, role } }
+    // Mock: Assume login success
+    localStorage.setItem("userId", "user_123");
+    alert("Logged in!");
+    navigate("/feed");
   };
 
   return (
     <div className="container">
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
-        <button type="submit">Login</button>
-      </form>
+      <div className="form-box">
+        <h2>Login</h2>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="input"
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="input"
+        />
+        <button onClick={handleLogin} className="button">
+          Login
+        </button>
+      </div>
     </div>
   );
 };
